@@ -4,3 +4,23 @@
     {{produto.nome}} - R$ {{produto.preco}} - {{produto.descricao}}
   </li>
 </ul>
+
+<h3>Adicionar Novo Produto</h3>
+<form (ngSubmit)="adicionarProduto()">
+  <div>
+    <label> Nome:</label>
+    <input type="text" [(ngModel)]="novoProduto.nome" name="nome" required>
+  </div>
+
+  <div>
+    <label> Preço:</label>
+    <input type="number" [(ngModel)]="novoProduto.preco" name="preco" required>
+  </div>
+
+  <div>
+    <label> Descrição:</label>
+    <input type="text" [(ngModel)]="novoProduto.descricao" name="descricao" required>
+  </div>
+
+  <button type="submit">Adicionar</button>
+</form>

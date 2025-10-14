@@ -1,22 +1,27 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ProductItem } from '../produto.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ProdutoService } from '../produto.service';
+import { ProductItem } from '../produto.model';
 
 @Component({
   selector: 'app-produto',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './produto.html',
-  styleUrl: './produto.css'
+  styleUrls: ['./produto.css']
 })
-export class Produto implements OnInit {
- produtos: ProductItem[] = [];
+export class ProdutoComponent implements OnInit {
+  produtos: ProductItem[] = [];
+  novoProduto: Omit<ProductItem, 'id'> = { nome: '', preco: 0, descricao: '' }; // Remova o id
 
   constructor(private produtoService: ProdutoService) {}
 
   ngOnInit(): void {
+    this.loadProdutos();
+  }
+
+  loadProdutos(): void {
     this.produtoService.getProdutos().subscribe({
       next: (data) => {
         console.log('Dados recebidos:', data);
@@ -24,6 +29,19 @@ export class Produto implements OnInit {
       },
       error: (err) => {
         console.error('Erro na requisição:', err);
+      }
+    });
+  }
+
+  adicionarProduto(): void {
+    this.produtoService.createProduto(this.novoProduto).subscribe({
+      next: (produto) => {
+        this.produtos.push(produto);
+        this.novoProduto = { nome: '', preco: 0, descricao: '' }; // Reseta o formulário
+        this.loadProdutos(); // Recarrega a lista para garantir sincronia
+      },
+      error: (err) => {
+        console.error('Erro ao criar produto:', err);
       }
     });
   }

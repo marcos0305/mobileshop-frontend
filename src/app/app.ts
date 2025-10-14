@@ -1,13 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { Produto } from './produto/produto';
+import { ProdutoComponent } from './produto/produto';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [Produto, CommonModule],
+  imports: [ProdutoComponent, CommonModule],
   templateUrl: './app.html',
-
   styleUrl: './app.css'
 })
 export class App {
