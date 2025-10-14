@@ -7,6 +7,7 @@ li {
   border-bottom: 1px solid #ccc;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 form {
   margin-top: 20px;
@@ -28,4 +29,11 @@ button {
 }
 button:hover {
   background-color: #0056b3;
+}
+.delete-button {
+  background-color: #dc3545;
+  margin-left: 10px;
+}
+.delete-button:hover {
+  background-color: #c82333;
 }

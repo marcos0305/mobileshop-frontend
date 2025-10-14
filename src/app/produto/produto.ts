@@ -45,4 +45,16 @@ export class ProdutoComponent implements OnInit {
       }
     });
   }
+
+  excluirProduto(id: number): void{
+    this.produtoService.deleteProduto(id).subscribe({
+      next: () => {
+        this.produtos = this.produtos.filter(produto => produto.id !== id);
+        this.loadProdutos();
+      },
+      error(err) {
+        console.error('Erro ao excluir produto', err);
+      },
+    })
+  }
 }
