@@ -1,11 +1,15 @@
 import { Component, signal } from '@angular/core';
+import { Produto } from './produto/produto';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [Produto, CommonModule],
   templateUrl: './app.html',
-  standalone: false,
+
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('mobileshop-frontend');
+  
 }
