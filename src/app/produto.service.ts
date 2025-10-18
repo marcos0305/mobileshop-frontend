@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ProductItem } from './produto.model';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutoService {
-  private apiUrl = 'http://localhost:8080/api/produtos';
+  private apiUrl = 'http://localhost:8080/api';
+  private authUrl = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) {}
 
-  getProdutos(): Observable<ProductItem[]> {
-    return this.http.get<ProductItem[]>(this.apiUrl);
+  register(user: { name: string; email: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${this.authUrl}/register`, user);
   }
 
-  createProduto(produto: Omit<ProductItem, 'id'>): Observable<ProductItem>{
-    return this.http.post<ProductItem>(this.apiUrl, produto);
+  login(user: { email: string; password: string }): Observable<string> {
+    return this.http.post<string>(`${this.authUrl}/login`, user);
   }
 
-  deleteProduto(id: number): Observable<void>{
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  getProdutos(): Observable<any[]> { // Ajuste o tipo se necessário
+    console.log('Carregamento de produtos desabilitado até login.');
+    return of([]); // Placeholder
   }
-
 }

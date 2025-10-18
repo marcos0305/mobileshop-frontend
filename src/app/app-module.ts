@@ -1,15 +1,13 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { App } from './app';
-import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
   ],
   imports: [
     BrowserModule,
-  
+    CommonModule,    
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
