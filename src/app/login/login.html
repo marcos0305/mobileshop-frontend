@@ -11,5 +11,8 @@
     </div>
     <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
     <button type="submit" [disabled]="!loginForm['valid']">Entrar</button>
+    <p class="register-link">
+        Não tem uma conta? <a routerLink="/register">Cadastre-se</a>
+    </p>
   </form>
 </div>
