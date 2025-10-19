@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { ProductItem } from './produto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutoService {
+  createProduto(novoProduto: Omit<ProductItem, "id">) {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'http://localhost:8080/api';
   private authUrl = 'http://localhost:8080/api/auth';
 
@@ -16,7 +20,11 @@ export class ProdutoService {
   }
 
   login(user: { email: string; password: string }): Observable<string> {
-    return this.http.post<string>(`${this.authUrl}/login`, user);
+    return this.http.post(
+      `${this.authUrl}/login`,
+      user,
+      { responseType: 'text' as const } // Usa 'text' com tipo explícito
+    );
   }
 
   getProdutos(): Observable<any[]> { // Ajuste o tipo se necessário
