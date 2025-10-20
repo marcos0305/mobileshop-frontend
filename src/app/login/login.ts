@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ProdutoService } from '../produto.service'; // Ajuste o caminho se necessário
+import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-login',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
@@ -14,26 +15,44 @@ import { Router, RouterLink } from '@angular/router';
 export class LoginComponent {
   user = { email: '', password: '' };
   errorMessage: string = '';
+  
 
-  constructor(private produtoService: ProdutoService, private router: Router) {}
+  constructor(private http: HttpClient, private auth: AuthService, private router: Router) {}
 
-  login() {
-  if (!this.user.email || !this.user.password) {
-    this.errorMessage = 'Preencha todos os campos.';
-    return;
-  }
-  console.log('Dados enviados para login:', { email: this.user.email, password: this.user.password }); // Log detalhado
-  this.produtoService.login(this.user).subscribe({
-    next: (token) => {
-      console.log('Login bem-sucedido, token:', token);
-      localStorage.setItem('token', token);
-      this.router.navigate(['/']);
-      this.router.navigate(['/produto']);
-    },
-    error: (err) => {
-      this.errorMessage = 'Credenciais inválidas: ' + err.message;
-      console.error('Erro no login:', err); // Linha 34
+login() {
+    if (!this.user.email || !this.user.password) {
+      this.errorMessage = 'Preencha todos os campos.';
+      return;
     }
+    console.log('Dados enviados para login:', { email: this.user.email, password: this.user.password });
+    this.http.post('http://localhost:8080/api/auth/login', this.user, { 
+      withCredentials: true, 
+      responseType: 'text' // Define o tipo de resposta como texto
+    }).subscribe({
+      next: (response: string) => {
+        if (response && !response.includes('Credenciais inválidas')) {
+          console.log('Login bem-sucedido, token:', response);
+          localStorage.setItem('token', response);
+          this.router.navigate(['/produto']);
+        } else {
+          this.errorMessage = 'Erro no login: ' + (response || 'Credenciais inválidas');
+          console.error('Resposta inesperada:', response);
+        }
+      },
+      error: (err) => {
+        this.errorMessage = 'Erro no login: ' + (err.error?.message || err.statusText || 'Conexão falhou');
+        console.error('Erro detalhado:', err);
+      }
+    });
+  }
+    loginWithGoogle() {
+  console.log('Tentando login com Google...');
+  this.auth.loginWithRedirect({
+    appState: { target: '/produto' },
+    authorizationParams:{
+        prompt: 'select_account'
+    }
+    
   });
-}
+  }
 }
