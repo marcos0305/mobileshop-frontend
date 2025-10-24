@@ -7,11 +7,15 @@
     <label for="password">Senha:</label>
     <input id="password" [(ngModel)]="user.password" name="password" type="password" required (input)="checkFormValidity()">
   </div>
+  
   <div>
     <div class="recaptcha">
       <re-captcha (success)="onRecaptchaSuccess($event)" [siteKey]="siteKey" size="normal" (error)="onRecaptchaError($event)"></re-captcha>
     </div>
   </div>
+
+    <p class="register-link">Não tem conta? <a routerLink="/register">Cria a conta</a></p>
+
   <button type="submit" [disabled]="!isButtonEnabled">Entrar</button>
   <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
 </form>
