@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProdutoService } from '../produto.service';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-produto',
@@ -10,13 +12,34 @@ import { ProdutoService } from '../produto.service';
   styleUrls: ['./produto.css']
 })
 export class ProdutoComponent implements OnInit {
-  produtos: any[] = [];
+  userEmail: string = '';
 
-  constructor(private produtoService: ProdutoService) {}
+
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
-    // Temporariamente desabilitado
-    // this.produtoService.getProdutos().subscribe(produtos => this.produtos = produtos);
-    console.log('Carregamento de produtos desabilitado até login.');
+    const token = localStorage.getItem('token');
+    if(!token){
+      this.router.navigate(['/login']);
+      return;
+    }
+  }
+
+  logout(){
+    this.http.post('http://localhost:8080/api/auth/logout', {}, {
+      withCredentials:true
+    }).subscribe({
+      next: () => {
+        this.finalizarLogout();
+      },
+      error: () => {
+        this.finalizarLogout();
+      }
+    });
+  }
+
+  private finalizarLogout(){
+    localStorage.removeItem('token');
+    this.router.navigate(['/login'])
   }
 }

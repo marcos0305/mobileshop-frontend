@@ -1,9 +1,6 @@
-<h2>Lista de Produtos</h2>
-<ul>
-  <li *ngFor="let produto of produtos">
-    {{produto.nome}} - R$ {{produto.preco}} - {{produto.descricao}}
-    
-  </li>
-</ul>
+<div class="produto-container">
+    <h2>Bem-vindo à Loja!</h2>
+    <p>Voce esta como: <strong>{{ userEmail }}</strong></p>
 
-<h3>Adicionar Novo Produto</h3>
+    <button class="logout-btn" (click)="logout()">Sair (Logout)</button>
+</div>
