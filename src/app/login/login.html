@@ -1,22 +1,108 @@
-<form (ngSubmit)="login()" #loginForm="ngForm">
-  <div>
-    <label for="email">E-mail:</label>
-    <input id="email" [(ngModel)]="user.email" name="email" required (input)="checkFormValidity()">
-  </div>
-  <div>
-    <label for="password">Senha:</label>
-    <input id="password" [(ngModel)]="user.password" name="password" type="password" required (input)="checkFormValidity()">
-  </div>
-  
-  <div>
-    <div class="recaptcha">
-      <re-captcha (success)="onRecaptchaSuccess($event)" [siteKey]="siteKey" size="normal" (error)="onRecaptchaError($event)"></re-captcha>
+<div class="login-wrapper">
+  <div class="login-container">
+    <!-- Logo + Título -->
+    <div class="header">
+      <div class="logo">
+        <span class="material-icons">storefront</span>
+        <h1>MobileShop</h1>
+      </div>
+      <h2>Login</h2>
+      <p class="subtitle">Acesse sua conta para continuar</p>
     </div>
+
+    <!-- Formulário CENTRALIZADO -->
+    <form (ngSubmit)="login()" #loginForm="ngForm" class="login-form">
+      
+      <!-- E-mail -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <input
+            id="email"
+            [(ngModel)]="user.email"
+            name="email"
+            type="email"
+            placeholder="Seu e-mail"
+            required
+            (input)="checkFormValidity()"
+            [class.invalid]="loginForm.submitted && !user.email"
+          />
+        </div>
+        <div class="error-text" *ngIf="loginForm.submitted && !user.email">
+          <span class="material-icons">error</span>
+          E-mail é obrigatório
+        </div>
+      </div>
+
+      <!-- Senha -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <input
+            id="password"
+            [(ngModel)]="user.password"
+            name="password"
+            type="password"
+            placeholder="Sua senha"
+            required
+            (input)="checkFormValidity()"
+            [class.invalid]="loginForm.submitted && !user.password"
+          />
+        </div>
+        <!-- CORRIGIDO: *ngIf (não *=) -->
+        <div class="error-text" *ngIf="loginForm.submitted && !user.password">
+          <span class="material-icons">error</span>
+          Senha é obrigatória
+        </div>
+      </div>
+
+      <!-- reCAPTCHA CENTRALIZADO -->
+      <div class="recaptcha-container">
+        <re-captcha 
+          (success)="onRecaptchaSuccess($event)" 
+          [siteKey]="siteKey" 
+          size="normal" 
+          (error)="onRecaptchaError($event)"
+        ></re-captcha>
+      </div>
+
+      <!-- Botão CENTRALIZADO com Loading -->
+      <button 
+        type="submit" 
+        [disabled]="!isButtonEnabled || isLoading"
+        class="btn-primary"
+      >
+        <span *ngIf="!isLoading">Entrar</span>
+        <span *ngIf="isLoading" class="loading">
+          <span class="material-icons spinner">refresh</span>
+          Entrando...
+        </span>
+      </button>
+
+      <!-- Erro -->
+      <div class="error-message" *ngIf="errorMessage">
+        <span class="material-icons">warning</span>
+        {{ errorMessage }}
+      </div>
+
+      <p class="forgot-link">
+        <a routerLink="/esqueci-senha">Esqueci minha senha</a>
+      </p>
+
+      <!-- Link de cadastro -->
+      <p class="register-link">
+        Não tem conta? 
+        <a routerLink="/register">Crie uma agora</a>
+      </p>
+    </form>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span>ou</span>
+    </div>
+
+    <!-- Google -->
+    <button class="btn-google" (click)="loginWithGoogle()">
+      <img src="https://www.google.com/favicon.ico" alt="Google" />
+      Login com Google
+    </button>
   </div>
-
-    <p class="register-link">Não tem conta? <a routerLink="/register">Cria a conta</a></p>
-
-  <button type="submit" [disabled]="!isButtonEnabled">Entrar</button>
-  <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
-</form>
-<button (click)="loginWithGoogle()">Login com Google</button>
+</div>

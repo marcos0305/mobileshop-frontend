@@ -26,6 +26,8 @@ export class RegisterComponent {
    };
   errorMessage: string = '';
   isButtonEnabled = false;
+error: any;
+success: any;
 
   constructor(private http: HttpClient,
     private router: Router) {}

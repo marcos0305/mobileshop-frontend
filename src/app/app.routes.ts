@@ -11,5 +11,11 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'produto', component: ProdutoComponent},
   { path: 'register', component: RegisterComponent },
+  { path: 'esqueci-senha',loadComponent: () => import('./login/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent)},
+  {
+  path: 'redefinir-senha',
+  loadComponent: () => import('./login/reset-password/reset-password.component')
+    .then(m => m.ResetPasswordComponent)
+},
   { path: '**', redirectTo: '' } 
 ];

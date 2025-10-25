@@ -1,38 +1,52 @@
-<form (ngSubmit)="register()" #registerForm="ngForm">
-  <div>
+<form (ngSubmit)="register()" #registerForm="ngForm" class="register-form">
+  <h2>Criar Conta</h2>
+  <p>Preencha os campos abaixo para se cadastrar.</p>
+
+  <div class="input-group">
     <label>E-mail:</label>
     <input 
       [(ngModel)]="user.email" 
       name="email" 
       type="email" 
       required 
+      placeholder="exemplo@dominio.com"
       (input)="validateForm()">
   </div>
 
-  <div>
+  <div class="input-group">
     <label>Senha (mín. 6 caracteres):</label>
     <input 
       [(ngModel)]="user.password" 
       name="password" 
       type="password" 
       required 
-      minlength="6" 
+      minlength="6"
+      placeholder="••••••••"
       (input)="validateForm()">
   </div>
 
-  <div>
+  <div class="input-group">
     <label>Confirmar Senha:</label>
     <input 
       [(ngModel)]="user.confirmPassword" 
       name="confirmPassword" 
       type="password" 
       required 
+      placeholder="••••••••"
       (input)="validateForm()">
   </div>
 
   <button 
     type="submit" 
-    [disabled]="!isButtonEnabled">
+    [disabled]="!isButtonEnabled"
+    class="btn-primary">
     Cadastrar
   </button>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="success" class="success">{{ success }}</div>
+
+  <div class="login-link">
+    Já tem conta? <a routerLink="/login">Faça login</a>
+  </div>
 </form>
