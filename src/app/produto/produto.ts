@@ -4,6 +4,16 @@ import { ProdutoService } from '../produto.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
+interface Product{
+  id: number;
+  nome: string;
+  descricao: string;
+  preco: number;
+  imagem: string;
+  estoque: number;
+  categoria: string;
+}
+
 @Component({
   selector: 'app-produto',
   standalone: true,
@@ -12,34 +22,36 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./produto.css']
 })
 export class ProdutoComponent implements OnInit {
-  userEmail: string = '';
 
+  onImgError(event: any) {
+  event.target.src = 'https://via.placeholder.com/300x300.png?text=Sem+Imagem';
+}
+  products: Product[] = [];
+  loading = true;
+  error = false;
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    const token = localStorage.getItem('token');
-    if(!token){
-      this.router.navigate(['/login']);
-      return;
-    }
+  ngOnInit(): void {
+    this.loadProducts();
   }
 
-  logout(){
-    this.http.post('http://localhost:8080/api/auth/logout', {}, {
-      withCredentials:true
-    }).subscribe({
-      next: () => {
-        this.finalizarLogout();
-      },
-      error: () => {
-        this.finalizarLogout();
-      }
-    });
+  loadProducts(): void {
+    this.http.get<Product[]>('http://localhost:8080/api/produtos')
+      .subscribe({
+        next: (data) => {
+          this.products = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Erro ao carregar produtos', err);
+          this.error = true;
+          this.loading = false;
+        }
+      });
   }
 
-  private finalizarLogout(){
-    localStorage.removeItem('token');
-    this.router.navigate(['/login'])
+  addToCart(product: Product): void {
+    alert(`${product.nome} adicionado ao carrinho!`);
   }
 }

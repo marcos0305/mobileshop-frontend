@@ -17,5 +17,10 @@ export const routes: Routes = [
   loadComponent: () => import('./login/reset-password/reset-password.component')
     .then(m => m.ResetPasswordComponent)
 },
+{
+  path: 'produtos',
+  loadComponent: () => import('./produto/produto')
+    .then(m => m.ProdutoComponent)
+},
   { path: '**', redirectTo: '' } 
 ];

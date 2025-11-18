@@ -63,7 +63,7 @@ export class LoginComponent {
 
         if (response && !response.includes('Credenciais inválidas') && !response.includes('CAPTCHA')) {
           localStorage.setItem('token', response);
-          this.router.navigate(['/produto']);
+          this.router.navigate(['/produtos']);
         } else {
           this.errorMessage = 'Erro no login: ' + (response || 'Credenciais inválidas ou CAPTCHA inválido');
         }
