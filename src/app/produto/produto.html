@@ -1,48 +1,34 @@
-<div class="container">
-  <header class="header">
-    <h1>Nossos Produtos</h1>
-    <p>Os melhores preços e qualidade para você</p>
-  </header>
-
-  <!-- Loading -->
-  <div *ngIf="loading" class="loading">
-    <div class="spinner"></div>
-    <p>Carregando produtos incríveis...</p>
-  </div>
-
-  <!-- Erro -->
-  <div *ngIf="error" class="error-message">
-    <p>Erro ao carregar produtos. Tente novamente.</p>
-    <button (click)="loadProducts()" class="btn-retry">Tentar Novamente</button>
-  </div>
-
-  <!-- Lista de Produtos -->
-  <div class="products-grid" *ngIf="!loading && !error">
-    <div *ngFor="let p of products" class="product-card">
-      <div class="image-container">
-        <img [src]="p.imagem" [alt]="p.nome" (error)="onImgError($event)">
-      </div>
+<!-- Lista de Produtos -->
+<div class="products-grid" *ngIf="!loading && !error">
+  <div *ngFor="let p of products" 
+       class="product-card" 
+       [routerLink]="['/produtos', p.id]" 
+       style="cursor: pointer;">
+    
+    <div class="image-container">
+      <img [src]="p.imagem" [alt]="p.nome" (error)="onImgError($event)">
+    </div>
+    
+    <div class="product-info">
+      <span class="category">{{ p.categoria }}</span>
+      <h3>{{ p.nome }}</h3>
+      <p class="description">{{ p.descricao }}</p>
       
-      <div class="product-info">
-        <span class="category">{{ p.categoria }}</span>
-        <h3>{{ p.nome }}</h3>
-        <p class="description">{{ p.descricao }}</p>
-        
-        <div class="price-stock">
-          <span class="price">R$ {{ p.preco | number:'1.2-2' }}</span>
-          <span class="stock" [class.low]="p.estoque <= 5">
-            {{ p.estoque > 0 ? p.estoque + ' em estoque' : 'Esgotado' }}
-          </span>
-        </div>
-
-        <button 
-          class="btn-add-cart"
-          (click)="addToCart(p)"
-          [disabled]="p.estoque === 0">
-          <span *ngIf="p.estoque > 0">Adicionar ao Carrinho</span>
-          <span *ngIf="p.estoque === 0">Indisponível</span>
-        </button>
+      <div class="price-stock">
+        <span class="price">R$ {{ p.preco | number:'1.2-2' }}</span>
+        <span class="stock" [class.low]="p.estoque <= 5">
+          {{ p.estoque > 0 ? p.estoque + ' em estoque' : 'Esgotado' }}
+        </span>
       </div>
+
+      <!-- SÓ MUDOU O (click) AQUI -->
+      <button 
+        class="btn-add-cart"
+        (click)="$event.stopPropagation(); addToCart(p)"
+        [disabled]="p.estoque === 0">
+        <span *ngIf="p.estoque > 0">Adicionar ao Carrinho</span>
+        <span *ngIf="p.estoque === 0">Indisponível</span>
+      </button>
     </div>
   </div>
 </div>

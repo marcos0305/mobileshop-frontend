@@ -8,6 +8,7 @@ import { authInterceptor } from './services/auth-interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideAuth0({
       domain: 'dev-nbdk26l4pp47g20i.us.auth0.com', 
       clientId: 'gg6m1hoLn8Dfmu6PZJbQKfnUrd6t6DXZ', 
@@ -17,7 +18,6 @@ export const appConfig: ApplicationConfig = {
       }
     }), 
 
-    provideHttpClient(withInterceptors([authInterceptor])),
 
   ]
 };

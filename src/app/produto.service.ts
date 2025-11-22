@@ -27,8 +27,7 @@ export class ProdutoService {
     );
   }
 
-  getProdutos(): Observable<any[]> { // Ajuste o tipo se necessário
-    console.log('Carregamento de produtos desabilitado até login.');
-    return of([]); // Placeholder
-  }
+ getProdutos() {
+  return this.http.get<any[]>('/api/produtos');
+}
 }

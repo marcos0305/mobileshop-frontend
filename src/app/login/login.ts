@@ -35,50 +35,40 @@ export class LoginComponent {
     console.log('Campos preenchidos, botão habilitado:', this.isButtonEnabled);
   }
 
-  login() {
-    if (!this.user.email || !this.user.password) {
-      this.errorMessage = 'Preencha todos os campos de login e senha.';
-      console.log('Campos inválidos:', { email: this.user.email, password: this.user.password });
-      return;
-    }
-
-    // ATIVA O LOADING
-    this.isLoading = true;
-    this.errorMessage = '';
-    console.log('Iniciando login...');
-
-    console.log('Dados enviados para login:', {
-      email: this.user.email,
-      password: this.user.password,
-      captchaToken: this.user.captchaToken
-    });
-
-    this.http.post('http://localhost:8080/api/auth/login', this.user, {
-      withCredentials: true,
-      responseType: 'text'
-    }).pipe(timeout(10000)).subscribe({
-      next: (response: string) => {
-        console.log('Resposta do servidor:', response);
-        this.isLoading = false; // DESATIVA O LOADING
-
-        if (response && !response.includes('Credenciais inválidas') && !response.includes('CAPTCHA')) {
-          localStorage.setItem('token', response);
-          this.router.navigate(['/produtos']);
-        } else {
-          this.errorMessage = 'Erro no login: ' + (response || 'Credenciais inválidas ou CAPTCHA inválido');
-        }
-      },
-      error: (err) => {
-        this.isLoading = false; // DESATIVA O LOADING
-        this.errorMessage = 'Erro no login: ' + (err.error?.message || err.statusText || 'Timeout');
-        console.error('Erro detalhado:', {
-          status: err.status,
-          message: err.error?.message || err.statusText,
-          url: err.url
-        });
-      }
-    });
+ login() {
+  if (!this.user.email || !this.user.password) {
+    this.errorMessage = 'Preencha todos os campos.';
+    return;
   }
+
+  this.isLoading = true;
+  this.errorMessage = '';
+
+  this.http.post('http://localhost:8080/api/auth/login', this.user, {
+    withCredentials: true,
+    responseType: 'text'
+  }).pipe(timeout(10000)).subscribe({
+    next: (response: string) => {
+      console.log('Resposta do servidor:', response);
+      this.isLoading = false;
+
+      const token = response.trim();
+
+      // SE O TOKEN FOR VÁLIDO (não contém mensagens de erro)
+      if (token && !token.includes('Credenciais inválidas') && !token.includes('CAPTCHA')) {
+        localStorage.setItem('token', token);
+        this.router.navigate(['/produtos']);
+      } else {
+        this.errorMessage = 'Login ou senha inválidos, ou CAPTCHA incorreto.';
+      }
+    },
+    error: (err) => {
+      this.isLoading = false;
+      this.errorMessage = 'Erro no servidor. Tente novamente.';
+      console.error('Erro no login:', err);
+    }
+  });
+}
 
   loginWithGoogle() {
     console.log('Tentando login com Google...');

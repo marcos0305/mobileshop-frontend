@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProdutoService } from '../produto.service';
-import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 interface Product{
@@ -17,11 +16,11 @@ interface Product{
 @Component({
   selector: 'app-produto',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './produto.html',
   styleUrls: ['./produto.css']
 })
-export class ProdutoComponent implements OnInit {
+export class Produto implements OnInit {
 
   onImgError(event: any) {
   event.target.src = 'https://via.placeholder.com/300x300.png?text=Sem+Imagem';
@@ -37,8 +36,9 @@ export class ProdutoComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.http.get<Product[]>('http://localhost:8080/api/produtos')
-      .subscribe({
+    this.http.get<Product[]>('http://localhost:8080/api/produtos',{
+      withCredentials: true
+      }).subscribe({
         next: (data) => {
           this.products = data;
           this.loading = false;

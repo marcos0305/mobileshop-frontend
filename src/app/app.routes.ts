@@ -1,26 +1,23 @@
 import { Routes } from "@angular/router";
 import { RegisterComponent } from "./register/register";
 import { LoginComponent } from "./login/login";
-import { ProdutoComponent } from "./produto/produto";
+import { Produto } from "./produto/produto";
+import { ProdutoDetalheComponent } from "./produto-detalhe/produto-detalhe";
 import { CallbackComponent } from "./callback.component.ts";
 
 export const routes: Routes = [
-  { path: 'callback', component: CallbackComponent  },
-  { path: '', redirectTo: '/login', pathMatch:'full' },
+  { path: 'callback', component: CallbackComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'produto', component: ProdutoComponent},
-  { path: 'register', component: RegisterComponent },
-  { path: 'esqueci-senha',loadComponent: () => import('./login/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent)},
-  {
-  path: 'redefinir-senha',
-  loadComponent: () => import('./login/reset-password/reset-password.component')
-    .then(m => m.ResetPasswordComponent)
-},
-{
-  path: 'produtos',
-  loadComponent: () => import('./produto/produto')
-    .then(m => m.ProdutoComponent)
-},
-  { path: '**', redirectTo: '' } 
+  
+  // ROTA CORRETA DA LISTA
+  { path: 'produtos', component: Produto },
+  
+  // ROTA NOVA PARA DETALHES (ESSA É A CHAVE!)
+  { path: 'produtos/:id', component: ProdutoDetalheComponent },
+
+  { path: 'esqueci-senha', loadComponent: () => import('./login/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent) },
+  { path: 'redefinir-senha', loadComponent: () => import('./login/reset-password/reset-password.component').then(m => m.ResetPasswordComponent) },
+  { path: '**', redirectTo: '' }
 ];

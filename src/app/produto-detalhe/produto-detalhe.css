@@ -1,0 +1,37 @@
+.image-detail-container {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 16px;
+}
+
+.image-detail-container img {
+  max-height: 550px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.price-big {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #28a745;
+}
+
+.stock-info {
+  font-size: 1.2rem;
+  padding: 12px;
+  background: #d4edda;
+  border-radius: 8px;
+  color: #155724;
+}
+
+.stock-info.text-danger {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.btn-success {
+  padding: 16px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
