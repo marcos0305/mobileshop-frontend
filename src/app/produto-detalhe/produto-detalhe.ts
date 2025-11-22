@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { CarrinhoService } from '../services/carrinho';
 
 @Component({
   selector: 'app-produto-detalhe',
@@ -17,7 +18,8 @@ export class ProdutoDetalheComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    public carrinhoService: CarrinhoService   // ← injeta o serviço
   ) {}
 
   ngOnInit(): void {
@@ -45,12 +47,9 @@ export class ProdutoDetalheComponent implements OnInit {
   }
 
   // Adiciona ao carrinho (já funcionando 100%)
-  addToCart(produto: any) {
-    let carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
-    carrinho.push(produto);
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    alert(`${produto.nome} adicionado ao carrinho!`);
-  }
+addToCart(produto: any) {
+  this.carrinhoService.adicionar(produto);
+}
 
   // Imagem quebrada → coloca uma padrão
   onImgError(event: any) {

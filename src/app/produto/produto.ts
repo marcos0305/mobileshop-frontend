@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { CarrinhoService } from '../services/carrinho';
 interface Product{
   id: number;
   nome: string;
@@ -29,7 +29,9 @@ export class Produto implements OnInit {
   loading = true;
   error = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    public carrinhoService: CarrinhoService
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -51,7 +53,7 @@ export class Produto implements OnInit {
       });
   }
 
-  addToCart(product: Product): void {
-    alert(`${product.nome} adicionado ao carrinho!`);
+  addToCart(produto: any) {
+  this.carrinhoService.adicionar(produto);
   }
 }

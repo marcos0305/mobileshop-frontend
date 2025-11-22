@@ -19,5 +19,9 @@ export const routes: Routes = [
 
   { path: 'esqueci-senha', loadComponent: () => import('./login/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent) },
   { path: 'redefinir-senha', loadComponent: () => import('./login/reset-password/reset-password.component').then(m => m.ResetPasswordComponent) },
+  {
+  path: 'carrinho',
+  loadComponent: () => import('./carrinho/carrinho').then(m => m.CarrinhoComponent)
+},
   { path: '**', redirectTo: '' }
 ];

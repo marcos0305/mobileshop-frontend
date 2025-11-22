@@ -1,0 +1,58 @@
+<div class="container mt-5 min-vh-100">
+  <h2 class="mb-4">
+    <i class="bi bi-cart3"></i> Meu Carrinho
+  </h2>
+
+  <div *ngIf="itens.length === 0" class="text-center py-5">
+    <p class="text-muted">Seu carrinho está vazio</p>
+    <a routerLink="/produtos" class="btn btn-primary">Ver Produtos</a>
+  </div>
+
+  <div *ngIf="itens.length > 0">
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Produto</th>
+            <th class="text-center">Preço</th>
+            <th class="text-center">Quantidade</th>
+            <th class="text-center">Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of itens; let i = index">
+            <td>
+              <strong>{{ item.nome }}</strong>
+            </td>
+            <td class="text-center">R$ {{ item.preco | number:'1.2-2' }}</td>
+            <td class="text-center">
+              <input type="number" min="1" class="form-control w-75 mx-auto"
+                     [(ngModel)]="item.quantidade" (change)="atualizarQuantidade(i, item.quantidade || 1)">
+            </td>
+            <td class="text-center fw-bold">
+              R$ {{ (item.preco * (item.quantidade || 1)) | number:'1.2-2' }}
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="removerItem(i)">
+                Remover
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-body text-end">
+        <h4>Total: R$ {{ total | number:'1.2-2' }}</h4>
+        <button class="btn btn-success btn-lg me-2">Finalizar Compra</button>
+        <button class="btn btn-outline-danger" (click)="limparCarrinho()">
+          Limpar Carrinho
+        </button>
+      </div>
+    </div>
+
+    <a routerLink="/produtos" class="btn btn-link mt-3">Continuar Comprando</a>
+  </div>
+</div>

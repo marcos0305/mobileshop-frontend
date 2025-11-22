@@ -1,3 +1,14 @@
+<div class="d-flex align-items-center">
+  <a routerLink="/carrinho" class="position-relative text-decoration-none text-dark me-4">
+    <i class="bi bi-cart3 fs-3"></i>
+    
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          *ngIf="carrinhoService.quantidadeTotal > 0">
+      {{ carrinhoService.quantidadeTotal }}
+      <span class="visually-hidden">itens no carrinho</span>
+    </span>
+  </a>
+</div>
 <!-- Lista de Produtos -->
 <div class="products-grid" *ngIf="!loading && !error">
   <div *ngFor="let p of products" 
