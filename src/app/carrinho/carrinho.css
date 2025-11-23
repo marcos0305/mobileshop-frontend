@@ -1,0 +1,215 @@
+/* =============== CARRINHO — ESTILO PREMIUM E LIMPO =============== */
+
+.carrinho-pagina {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9fd 100%);
+  padding: 40px 20px;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* Título */
+.carrinho-titulo {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #2d3436;
+  text-align: center;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.carrinho-icone {
+  font-family: 'Material Symbols Outlined';
+  font-size: 3.2rem;
+  color: #e63946;
+  font-variation-settings: 'FILL' 1, 'wght' 700;
+}
+
+/* Carrinho vazio */
+.carrinho-vazio {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.carrinho-vazio-texto {
+  font-size: 1.6rem;
+  color: #636e72;
+  margin-bottom: 30px;
+}
+
+.btn-voltar-loja {
+  background: #4361ee;
+  color: white;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s;
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
+}
+
+.btn-voltar-loja:hover {
+  background: #3651d4;
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(67, 97, 238, 0.4);
+}
+
+/* Lista de itens */
+.carrinho-lista {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  margin-bottom: 30px;
+}
+
+.carrinho-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  transition: all 0.3s;
+}
+
+.carrinho-item:hover {
+  background: #f8f9fa;
+  transform: translateX(5px);
+}
+
+.carrinho-item:last-child {
+  border-bottom: none;
+}
+
+/* Colunas */
+.item-nome { font-size: 1.1rem; font-weight: 600; color: #2d3436; }
+.item-preco { text-align: center; color: #2ecc71; font-weight: 700; }
+.item-subtotal { text-align: center; font-size: 1.3rem; font-weight: 900; color: #2ecc71; }
+
+.item-quantidade {
+  text-align: center;
+}
+
+.quantidade-input {
+  width: 80px;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.quantidade-input:focus {
+  outline: none;
+  border-color: #4361ee;
+  box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+}
+
+/* Botão remover */
+.btn-remover {
+  background: none;
+  border: none;
+  color: #e63946;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.btn-remover:hover {
+  background: #fee2e2;
+  transform: scale(1.2);
+}
+
+/* Resumo */
+.carrinho-resumo {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.resumo-total {
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #2d3436;
+}
+
+.resumo-total strong {
+  color: #2ecc71;
+  font-size: 2.4rem;
+}
+
+.resumo-botoes {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.btn-finalizar {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  padding: 18px 50px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s;
+  box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);
+}
+
+.btn-finalizar:hover {
+  background: #27ae60;
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(46, 204, 113, 0.5);
+}
+
+.btn-limpar {
+  background: transparent;
+  color: #e63946;
+  border: 2px solid #e63946;
+  padding: 16px 35px;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-limpar:hover {
+  background: #e63946;
+  color: white;
+}
+
+.link-continuar {
+  color: #4361ee;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.link-continuar:hover {
+  text-decoration: underline;
+}
+
+/* Responsivo */
+@media (max-width: 992px) {
+  .carrinho-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    text-align: center;
+    padding: 20px;
+  }
+  .item-acao { justify-self: center; }
+  .resumo-botoes { flex-direction: column; align-items: center; }
+  .btn-finalizar, .btn-limpar { width: 100%; max-width: 300px; }
+}
+

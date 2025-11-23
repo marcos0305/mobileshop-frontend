@@ -1,45 +1,92 @@
-<div class="d-flex align-items-center">
-  <a routerLink="/carrinho" class="position-relative text-decoration-none text-dark me-4">
-    <i class="bi bi-cart3 fs-3"></i>
-    
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-          *ngIf="carrinhoService.quantidadeTotal > 0">
+<div class="pagina-titulo">
+  <span class="titulo-icone material-symbols-outlined">storefront</span>
+  <h1>Mobile Shop</h1>
+</div>
+
+<!-- CARRINHO FIXO — FUNCIONA EM TODAS AS PÁGINAS (LISTA E DETALHE) -->
+<div class="carrinho-fixo">
+  <a routerLink="/carrinho" class="carrinho-botao">
+    <span class="material-symbols-outlined">
+      add_shopping_cart
+    </span>
+    <span class="carrinho-contador" *ngIf="carrinhoService.quantidadeTotal > 0">
       {{ carrinhoService.quantidadeTotal }}
-      <span class="visually-hidden">itens no carrinho</span>
     </span>
   </a>
 </div>
-<!-- Lista de Produtos -->
-<div class="products-grid" *ngIf="!loading && !error">
-  <div *ngFor="let p of products" 
-       class="product-card" 
-       [routerLink]="['/produtos', p.id]" 
-       style="cursor: pointer;">
-    
-    <div class="image-container">
-      <img [src]="p.imagem" [alt]="p.nome" (error)="onImgError($event)">
-    </div>
-    
-    <div class="product-info">
-      <span class="category">{{ p.categoria }}</span>
-      <h3>{{ p.nome }}</h3>
-      <p class="description">{{ p.descricao }}</p>
-      
-      <div class="price-stock">
-        <span class="price">R$ {{ p.preco | number:'1.2-2' }}</span>
-        <span class="stock" [class.low]="p.estoque <= 5">
-          {{ p.estoque > 0 ? p.estoque + ' em estoque' : 'Esgotado' }}
-        </span>
-      </div>
+<div class="container my-5">
 
-      <!-- SÓ MUDOU O (click) AQUI -->
-      <button 
-        class="btn-add-cart"
-        (click)="$event.stopPropagation(); addToCart(p)"
-        [disabled]="p.estoque === 0">
-        <span *ngIf="p.estoque > 0">Adicionar ao Carrinho</span>
-        <span *ngIf="p.estoque === 0">Indisponível</span>
+  <!-- CAMPO DE BUSCA -->
+  <div class="busca-container">
+    <div class="busca-box">
+      <i class="bi bi-search"></i>
+      <input type="text" 
+             placeholder="Buscar produto..."
+             [(ngModel)]="termoBusca"
+             (input)="filtrarProdutos()">
+      <button *ngIf="termoBusca" (click)="limparBusca()" class="busca-limpar">
+        <i class="bi bi-x-lg"></i>
       </button>
     </div>
+  </div>
+
+  <!-- FILTRO POR CATEGORIA (CLICÁVEL) -->
+<div class="categorias-filtro mb-4">
+  <button class="categoria-btn" 
+          [class.ativo]="categoriaSelecionada === null" 
+          (click)="filtrarPorCategoria(null)">
+    Todos
+  </button>
+  
+  <button class="categoria-btn" 
+          *ngFor="let cat of categoriasUnicas" 
+          [class.ativo]="categoriaSelecionada === cat"
+          (click)="filtrarPorCategoria(cat)">
+    {{ cat }}
+  </button>
+</div>
+
+  <!-- Loading / Erro / Lista -->
+  <div *ngIf="loading" class="texto-centro py-5">
+    <div class="spinner"></div>
+  </div>
+
+  <div *ngIf="error" class="texto-centro py-5">
+    <p class="erro">Erro ao carregar produtos</p>
+  </div>
+
+  <div class="products-grid" *ngIf="!loading && !error">
+    <div *ngFor="let p of produtosFiltrados" 
+         class="product-card" 
+         [routerLink]="['/produtos', p.id]">
+      
+      <div class="image-container">
+        <img [src]="p.imagem" [alt]="p.nome" (error)="onImgError($event)">
+      </div>
+      
+      <div class="product-info">
+        <span class="category">{{ p.categoria }}</span>
+        <h3>{{ p.nome }}</h3>
+        <p class="description">{{ p.descricao }}</p>
+        
+        <div class="price-stock">
+          <span class="price">R$ {{ p.preco | number:'1.2-2' }}</span>
+          <span class="stock" [class.low]="p.estoque <= 5">
+            {{ p.estoque > 0 ? p.estoque + ' em estoque' : 'Esgotado' }}
+          </span>
+        </div>
+
+        <button class="btn-add-cart"
+                (click)="$event.stopPropagation(); addToCart(p)"
+                [disabled]="p.estoque === 0">
+          {{ p.estoque > 0 ? 'Adicionar' : 'Indisponível' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="texto-centro py-5" *ngIf="!loading && !error && produtosFiltrados.length === 0">
+    <h3>Nenhum produto encontrado</h3>
+    <p>"{{ termoBusca }}"</p>
   </div>
 </div>

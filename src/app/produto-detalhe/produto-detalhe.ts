@@ -3,11 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { CarrinhoService } from '../services/carrinho';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-produto-detalhe',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './produto-detalhe.html',
   styleUrls: ['./produto-detalhe.css']
 })

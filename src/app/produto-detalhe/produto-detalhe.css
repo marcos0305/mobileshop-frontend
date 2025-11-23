@@ -1,37 +1,297 @@
-.image-detail-container {
+/* ===========================
+      FONTE MODERNA
+=========================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif !important;
+  background: #f5f7fa;
+}
+
+/* Centralização */
+.texto-centro {
   text-align: center;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 16px;
 }
 
-.image-detail-container img {
-  max-height: 550px;
-  object-fit: contain;
-  border-radius: 12px;
+/* ===========================
+      CARRINHO FIXO (TOPO DIREITA)
+=========================== */
+/* CARRINHO FIXO — FUNCIONA EM TODAS AS TELAS */
+.carrinho-fixo {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;           /* não bloqueia cliques no resto da tela */
 }
 
-.price-big {
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: #28a745;
+.carrinho-botao {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #39ace6f5, #39ace6f5);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 08px 25px #39ace6f5(230, 57, 70, 0.5);
+  transition: all 0.3s ease;
+  pointer-events: auto !important;   /* FORÇA O CLIQUE SEMPRE FUNCIONAR */
+  position: relative;
+  overflow: hidden;
 }
 
-.stock-info {
-  font-size: 1.2rem;
-  padding: 12px;
-  background: #d4edda;
-  border-radius: 8px;
-  color: #155724;
+.carrinho-botao:hover {
+  transform: scale(1.15) rotate(8deg);
+  box-shadow: 0 15px 35px #39ace6f5(230, 57, 70, 0.7);
 }
 
-.stock-info.text-danger {
-  background: #f8d7da;
-  color: #721c24;
+.carrinho-contador {
+  position: absolute;
+  top: 40px;           /* sobe um pouco */
+  right: 30px;         /* vai mais pro canto */
+  background: #033863;
+  color: white;
+  font-weight: 900;
+  font-size: 9px !important;   /* ← número menor */
+  min-width: 9px;               /* ← bolinha menor */
+  height: 12px;                  /* ← bolinha menor */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid white;     /* borda branca fina */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  line-height: 1;
+  padding: 0 4px;
+  animation: pulo 0.4s ease;
 }
 
-.btn-success {
-  padding: 16px;
-  font-size: 1.3rem;
+/* ===========================
+      BOTÃO VOLTAR
+=========================== */
+.btn-voltar {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #4e73df;
   font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: color .2s ease, transform .2s ease;
+}
+
+.btn-voltar:hover {
+  color: #3b59c8;
+  transform: translateX(-3px);
+}
+
+/* ===========================
+      LOADING
+=========================== */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ddd;
+  border-top-color: #4e73df;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===========================
+      GRID DO DETALHE
+=========================== */
+.detalhe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  animation: fadeIn .5s ease forwards;
+}
+
+/* Animação entrada */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+      IMAGEM DETALHE
+=========================== */
+.imagem-detalhe {
+  width: 100%;
+  height: 420px;
+  background: #f0f0f0;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.imagem-detalhe img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 20px;
+  transition: transform .4s ease;
+}
+
+.imagem-detalhe:hover img {
+  transform: scale(1.08);
+}
+
+/* ===========================
+      INFO DETALHE
+=========================== */
+.info-detalhe {
+  display: flex;
+  flex-direction: column;
+}
+
+.categoria {
+  font-size: 15px;
+  font-weight: 600;
+  color: #4e73df;
+  text-transform: uppercase;
+}
+
+.info-detalhe h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 10px 0 15px;
+  color: #333;
+}
+
+.preco-detalhe {
+  font-size: 32px;
+  color: #2ecc71;
+  font-weight: 700;
+}
+
+.estoque-detalhe {
+  font-size: 16px;
+  margin-top: 8px;
+  color: #333;
+}
+
+.estoque-detalhe.baixo {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* ===========================
+      DESCRIÇÃO
+=========================== */
+.descricao-detalhe {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+/* ===========================
+      BOTÃO ADICIONAR AO CARRINHO
+=========================== */
+.btn-adicionar-detalhe {
+  padding: 14px;
+  font-size: 17px;
+  background: #4e73df;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background .25s ease, transform .25s ease;
+}
+
+.btn-adicionar-detalhe:hover {
+  background: #3d5ec9;
+  transform: translateY(-3px);
+}
+
+.btn-adicionar-detalhe:disabled {
+  background: #b5b7bc;
+  cursor: not-allowed;
+}
+
+/* ===========================
+      RESPONSIVIDADE
+=========================== */
+@media (max-width: 900px) {
+  .detalhe-grid {
+    grid-template-columns: 1fr;
+    padding: 15px;
+  }
+
+  .imagem-detalhe {
+    height: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .imagem-detalhe {
+    height: 300px;
+  }
+
+  .info-detalhe h1 {
+    font-size: 22px;
+  }
+
+  .preco-detalhe {
+    font-size: 26px;
+  }
+}
+
+/* =============== TÍTULO PADRÃO — MOBILE SHOP =============== */
+.pagina-titulo {
+  text-align: center;
+  padding: 40px 20px 30px;
+  background: linear-gradient(135deg, #4361ee, #5a75f0);
+  color: white;
+  margin: -20px -20px 40px -20px;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 10px 30px rgba(67, 97, 238, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.pagina-titulo::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,30 L100,100 L0,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+  background-size: cover;
+  opacity: 0.3;
+}
+
+.pagina-titulo h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+}
+
+.titulo-icone {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 10px;
+  font-variation-settings: 'FILL' 1, 'wght' 700;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .pagina-titulo h1 { font-size: 2.4rem; }
+  .titulo-icone { font-size: 3rem; }
+  .pagina-titulo { padding: 30px 15px; margin: -10px -10px 30px; }
 }
